@@ -18,15 +18,15 @@ public class Principal
 	public static void main(String[] args) 
 	{
 		puzzle = new ArrayList<String>();
-		puzzle.add("7");
-		puzzle.add("4");
-		puzzle.add("6");
-		puzzle.add("0");
-		puzzle.add("5");
-		puzzle.add("8");
 		puzzle.add("1");
+		puzzle.add("0");
 		puzzle.add("2");
 		puzzle.add("3");
+		puzzle.add("4");
+		puzzle.add("6");
+		puzzle.add("5");
+		puzzle.add("7");
+		puzzle.add("8");
 		
 		Principal m = new Principal();
         ArrayList<String> respuesta = m.BFS(puzzle);
@@ -162,7 +162,7 @@ public class Principal
 	boolean visitado(ArrayList<String> a)
 	{
 		for (int i = 0; i < memoria.size(); i++){
-			if(imprimirPuzzle(a) == memoria.get(i)) {
+			if(imprimirPuzzle(a).equals(memoria.get(i))) {
 				return true;
 			}
 		}
@@ -179,13 +179,13 @@ public class Principal
         Q.add(inicio);
         while (Q.size() > 0){
             ArrayList<String> v = Q.remove();
-            if( imprimirPuzzle(v) == objetivo){
+            if(imprimirPuzzle(v).equals(objetivo)){
                 return v;
             }
             for (ArrayList<String> w: sucesores(v)) {
             	if(!visitado(w)){
                     memoria.add(imprimirPuzzle(w));
-                    System.out.print(imprimirPuzzle(w) + "/");
+                    System.out.print(imprimirPuzzle(w) + "Objetivo" + objetivo + "/");
                     Q.add(w);
                 }
             }System.out.println("");
