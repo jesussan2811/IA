@@ -1,0 +1,49 @@
+
+FUNCTION_BLOCK pproyectofuzzylogic	// Block definition (there may be more than one block per file)
+
+VAR_INPUT				// Define input variables
+	crianza : REAL;
+	alimentacion : REAL;
+	entrenamiento: REAL;
+END_VAR
+
+VAR_OUTPUT				// Define output variable
+	evolucion : REAL;
+END_VAR
+
+FUZZIFY crianza
+	TERM pobre := (0, 1) (4, 0) ; 
+	TERM buena := (1, 0) (4,1) (6,1) (9,0);
+	TERM perfecta := (6, 0) (9, 1);
+END_FUZZIFY
+
+FUZZIFY entrenamiento
+	TERM deficiente := (0, 1) (1, 1) (3,0) ;
+	TERM regular := (2, 0) (4,1) (6,1) (8,0);
+	TERM perfecto := (7,0) (9,1);
+END_FUZZIFY
+
+FUZZIFY alimentacion
+	TERM pobre := (0, 1) (1, 1) (3,0) ; 
+	TERM buena := (7, 0) (9, 1);
+END_FUZZIFY
+
+DEFUZZIFY evolucion
+	TERM numemon := (0,0) (5,1) (10,0);
+	TERM xvemon := (10,0) (15,1) (20,0);
+	TERM veedramon := (20,0) (25,1) (30,0);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+
+RULEBLOCK No1
+	AND : MIN;
+	ACT : MIN;
+	ACCU : MAX;
+
+	RULE 1 : IF crianza IS pobre OR alimentacion IS pobre THEN evolucion IS numemon;
+	RULE 2 : IF crianza IS buena OR alimentacion IS buena THEN evolucion IS xvemon; 
+	RULE 3 : IF crianza IS perfecta AND alimentacion IS buena AND entrenamiento IS perfecto THEN evolucion IS veedramon;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
